@@ -1,10 +1,8 @@
-# 📊 Chinese National Climate Targets Explorer (Shiny App)
+# 📊 Chinese National Climate Targets Visualization (Shiny App)
 
-An interactive **Shiny for Python** web app for browsing and analyzing China's national climate policy targets — developed by the **Macro and Green Finance Lab at Peking University (MGF@PKU)**.
+An interactive **Shiny for Python** web app for visualizing China's national climate policy targets — developed by the **Macro and Green Finance Lab at Peking University (MGF@PKU)**.
 
 This tool is designed as a **template** for research, presentation, and educational purposes. It is not intended for local hosting by the general public — instead, it showcases how one might integrate real-time GitHub-hosted datasets into a Shiny app.
-
-<img width="1158" height="806" alt="image" src="https://github.com/user-attachments/assets/f50a9002-50ce-4c8b-87fb-e10da2faca53" />
 
 ---
 
@@ -12,27 +10,23 @@ This tool is designed as a **template** for research, presentation, and educatio
 
 This app visualizes a curated dataset of China's national climate policy targets across sectors such as **GHG Emissions, Energy/Power, Buildings, Transport, LULUCF, Circular Economy, Pollution, and Finance**. Features include:
 
-- 🔎 Filtering by target horizon, target category, and keyword
-- 🧾 Paginated table view with clickable rows
-- 📥 Export of filtered or full results (XLSX, sent by email)
+- 📅 Bar chart showing climate target announcements by year
+- 🏷️ Bar chart showing climate targets by category
 
 Powered by:
 
 - [`shiny`](https://shiny.posit.co/py/) for interactivity
+- [`plotly`](https://plotly.com/python/) for interactive charts
 - [`polars`](https://pola.rs/) for fast data wrangling
 - GitHub API for real-time data retrieval
-- Custom CSS + JS enhancements
 
 ---
 
 ## 📦 Features
 
-- Paginated and stylized data table
-- Filter by target horizon, target category, and keyword
-- XLSX export of current filtered or full results (sent via email)
+- Two interactive Plotly bar charts (by announcement year and by target category)
 - Integrated GitHub data sync (fetches latest release from `MGFPKU/target_dataset`)
 - Bilingual UI (Chinese / English, controlled by `LANGUAGE` env var)
-- Modern UI with iconography, tooltips, and layout styling
 
 ---
 
@@ -43,8 +37,8 @@ This app uses GitHub as a remote data backend. If you're customizing or extendin
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/MGFPKU/target_table.git
-cd target_table
+git clone https://github.com/MGFPKU/target_visualization.git
+cd target_visualization
 ```
 
 ### 2. Install dependencies
@@ -64,14 +58,12 @@ You'll need to set the token in a `.env` file like:
 
 ```env
 GITHUB_TOKEN=ghp_...
-GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/...
 LANGUAGE=EN
 ```
 
 Below is what each variable does:
 
 - `GITHUB_TOKEN`: a GitHub Personal Access Token (PAT) with read access to the `MGFPKU/target_dataset` repository. The app uses this token to download `dataset.xlsx` from the latest release. Keep this token private (do not commit it).
-- `GOOGLE_SCRIPT_URL`: the public URL for a Google Apps Script web app that acts as the mailing bot. The Shiny app POSTs filtered exports (XLSX) to this endpoint and the script forwards them by email.
 - `LANGUAGE`: set the UI language for the app. Use `EN` for English or `CN` for Chinese. The value controls which translations are displayed in the interface.
 
 ### 4. Run the app
@@ -96,9 +88,7 @@ The repository layout and purpose of key files:
 
 ```
 .env                  # Environment variables (not committed, create locally following setup instructions)
-app.py                # Main Shiny app (UI + server)
-table.py              # Paginated table output and helpers
-download.py           # Download UI and mailing helpers (POSTs to Google Script)
+app.py                # Main Shiny app (UI + server, renders Plotly charts)
 data.py               # Data fetching and processing logic
 i18n.py               # Translation helper; reads LANGUAGE to switch UI
 translation.json      # Translation strings used by `i18n.py`
@@ -112,10 +102,8 @@ README.md             # Project documentation (this file)
 ```
 
 Notes:
-- Edit `app.py` to change high-level UI or filtering logic.
-- `table.py` controls how target rows are rendered.
+- Edit `app.py` to change high-level UI or chart logic.
 - `data.py` handles fetching and parsing `dataset.xlsx` from the latest GitHub release.
-- `download.py` integrates with the Google Apps Script mailing bot (set via `GOOGLE_SCRIPT_URL`).
 
 
 ## 📚 Citation
