@@ -41,7 +41,7 @@ def server(input, output, session):
       category_freq = (
          df.group_by("Target_Category")
          .agg(pl.count().alias("frequency"))
-         .sort("frequency", descending=True)
+         .sort("frequency")
       )
       fig = px.bar(
          category_freq,
