@@ -27,12 +27,13 @@ def server(input, output, session):
          .agg(pl.count().alias("frequency"))
          .sort("Announcement_Year")
       )
-      fig = px.line(
+      fig = px.bar(
          freq,
          x="Announcement_Year",
          y="frequency",
          title=i18n("time_plot_title"),
       )
+      fig.update_layout(xaxis_tickangle=-45)
       return fig
 
    
