@@ -7,6 +7,7 @@ import io
 
 from data import get_data, fetch_raw_data
 from i18n import i18n
+import plotly.express as px
 
 df = get_data()
 
@@ -20,8 +21,6 @@ app_ui = ui.page_fluid(
 def server(input, output, session):
    @render_widget # pyrefly: ignore
    def time_plot():
-      import plotly.express as px
-
       freq = (
          df.group_by("Announcement_Year")
          .agg(pl.count().alias("frequency"))
@@ -37,8 +36,22 @@ def server(input, output, session):
       fig.update_yaxes(title_text=i18n("数量"))
       fig.update_layout(xaxis_tickangle=-45)
       return fig
-
-   
-
+   @render_widget # pyrefly: ignore
+   def category_plot():
+      category_freq = (
+         df.group_by("Target_Category")
+         .agg(pl.count().alias("frequency"))
+         .sort("frequency", descending=True)
+      )
+      fig = px.bar(
+         category_freq,
+         x="frequency",
+         y="Target_Category",
+         title=i18n("气候目标类型发布数量"),
+      )
+      fig.update_xaxes(title_text=i18n("气候目标类型"))
+      fig.update_yaxes(title_text=i18n("数量"))
+      fig.update_layout(xaxis_tickangle=-45)
+      return fig
 
 app = App(app_ui, server, debug=False)
