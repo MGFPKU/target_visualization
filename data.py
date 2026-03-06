@@ -8,15 +8,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 REPO = "MGFPKU/target_dataset"
 ASSET_NAME = "dataset.xlsx"
 
-WANTED_COLS = [
-    "Metric",
-    "Direction",
-    "Target_Magnitude",
-    "Baseline_Year",
-    "Target_Year_or_Period",
-    "Target_Category",
-    "Document",
-]
+WANTED_COLS = ["Announcement_Year", "Target_Category"]
 
 
 def promote_second_row_to_header(df: pl.DataFrame) -> pl.DataFrame:
@@ -104,14 +96,9 @@ def get_data() -> pl.DataFrame:
             .filter(pl.col("Count") != "r")
         )
         sheet = sheet.with_columns(
-            pl.col("Document").str.replace(r"\.[^.]+$", "").alias("Document")
-        ).with_columns(
-            pl.col("Target_Category").str.replace(r"\s*target$", "", literal=False)# .alias("Target_Category")
+            pl.col("Target_Category").str.replace(r"\s*target$", "", literal=False)
         )
         sheet = sheet.select(WANTED_COLS)
-        sheet = sheet.join(
-            source_sheet, left_on="Document", right_on="code", how="left"
-        )
         combined_sheet = (
             sheet if combined_sheet is None else pl.concat([combined_sheet, sheet])
         )
