@@ -13,8 +13,16 @@ df = get_data()
 
 # compile ui
 app_ui = ui.page_fluid(
-   output_widget("time_plot"),
-   output_widget("category_plot"),
+   ui.row(
+      ui.tags.div(
+         {"class": "col-12 col-xl-6"},
+         output_widget("time_plot"),
+      ),
+      ui.tags.div(
+         {"class": "col-12 col-xl-6"},
+         output_widget("category_plot"),
+      ),
+   )
 )
 
 
