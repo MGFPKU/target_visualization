@@ -18,7 +18,24 @@ app_ui = ui.page_fluid(
 
 
 def server(input, output, session):
-   pass
+   @render_widget
+   def time_plot():
+      import plotly.express as px
+
+      freq = (
+         df.group_by("Announcement_Year")
+         .agg(pl.count().alias("frequency"))
+         .sort("Announcement_Year")
+      )
+      fig = px.line(
+         freq,
+         x="Announcement_Year",
+         y="frequency",
+         title=i18n("time_plot_title"),
+      )
+      return fig
+
+   
 
 
 app = App(app_ui, server, debug=False)
