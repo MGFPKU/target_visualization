@@ -1,0 +1,15 @@
+{
+    "sheets": [
+        [
+            "GHG Emissions",
+            "Energy|Power",
+            "Buildings",
+            "Transport",
+            "LULUCF",
+            "Circular Economy",
+            "Pollution",
+            "Finance"
+        ]
+    ],
+    "source": "Source documents"
+}
