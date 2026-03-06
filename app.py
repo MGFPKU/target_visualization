@@ -18,7 +18,7 @@ app_ui = ui.page_fluid(
 
 
 def server(input, output, session):
-   @render_widget
+   @render_widget # pyrefly: ignore
    def time_plot():
       import plotly.express as px
 
