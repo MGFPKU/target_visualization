@@ -4,6 +4,8 @@ An interactive **Shiny for Python** web app for visualizing China's national cli
 
 This tool is designed as a **template** for research, presentation, and educational purposes. It is not intended for local hosting by the general public — instead, it showcases how one might integrate real-time GitHub-hosted datasets into a Shiny app.
 
+<img width="3098" height="778" alt="image" src="https://github.com/user-attachments/assets/01061259-0c6e-42dd-9b73-1eb5a639c13b" />
+
 ---
 
 ## 🔍 Overview
