@@ -39,6 +39,7 @@ def server(input, output, session):
          x="Announcement_Year",
          y="frequency",
          title=i18n("气候目标年度发布数量"),
+         color_discrete_sequence=["#385E4B"]
       )
       fig.update_xaxes(title_text=i18n("发布年份"), tickangle=-45)
       fig.update_yaxes(title_text=i18n("数量"))
@@ -56,6 +57,7 @@ def server(input, output, session):
          x="frequency",
          y="Target_Category",
          title=i18n("气候目标类型发布数量"),
+         color_discrete_sequence=["#385E4B"]
       )
       fig.update_xaxes(title_text=i18n("气候目标类型"))
       fig.update_yaxes(title_text=i18n("数量"))
