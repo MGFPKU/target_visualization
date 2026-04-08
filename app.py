@@ -43,7 +43,11 @@ def server(input, output, session):
       )
       fig.update_xaxes(title_text=i18n("发布年份"), tickangle=-45)
       fig.update_yaxes(title_text=i18n("数量"))
-      fig.update_layout(xaxis_tickangle=-45)
+      fig.update_layout(
+         xaxis_tickangle=-45,
+         plot_bgcolor="white",
+         paper_bgcolor="white"
+      )
       return fig
    @render_widget # pyrefly: ignore
    def category_plot():
@@ -61,7 +65,10 @@ def server(input, output, session):
       )
       fig.update_xaxes(title_text=i18n("气候目标类型"))
       fig.update_yaxes(title_text=i18n("数量"))
-      fig.update_layout(xaxis_tickangle=-45)
+      fig.update_layout(
+         plot_bgcolor="white",
+         paper_bgcolor="white"
+      )
       return fig
 
 app = App(app_ui, server, debug=False)
