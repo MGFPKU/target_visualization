@@ -11,6 +11,12 @@ import plotly.express as px
 
 df = get_data()
 
+
+def apply_plot_interaction_defaults(fig):
+   fig.update_layout(dragmode="pan")
+   fig.update_layout(modebar_remove=['select2d', 'lasso2d'])
+   return fig
+
 # compile ui
 app_ui = ui.page_fluid(
    ui.row(
@@ -43,13 +49,13 @@ def server(input, output, session):
       )
       fig.update_xaxes(title_text=i18n("发布年份"), tickangle=-45)
       fig.update_yaxes(title_text=i18n("数量"))
+      fig.update_layout(yaxis_fixedrange=True)
       fig.update_layout(
          xaxis_tickangle=-45,
          plot_bgcolor="white",
          paper_bgcolor="white"
       )
-      fig.update_layout(modebar_remove=['select2d', 'lasso2d'])
-      return fig
+      return apply_plot_interaction_defaults(fig)
    @render_widget # pyrefly: ignore
    def category_plot():
       category_freq = (
@@ -70,7 +76,6 @@ def server(input, output, session):
          plot_bgcolor="white",
          paper_bgcolor="white"
       )
-      fig.update_layout(modebar_remove=['select2d', 'lasso2d'])
-      return fig
+      return apply_plot_interaction_defaults(fig)
 
 app = App(app_ui, server, debug=False)
