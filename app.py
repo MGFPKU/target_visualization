@@ -48,6 +48,7 @@ def server(input, output, session):
          plot_bgcolor="white",
          paper_bgcolor="white"
       )
+      fig.update_layout(modebar_remove=['select2d', 'lasso2d'])
       return fig
    @render_widget # pyrefly: ignore
    def category_plot():
@@ -69,6 +70,7 @@ def server(input, output, session):
          plot_bgcolor="white",
          paper_bgcolor="white"
       )
+      fig.update_layout(modebar_remove=['select2d', 'lasso2d'])
       return fig
 
 app = App(app_ui, server, debug=False)
