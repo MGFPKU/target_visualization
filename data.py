@@ -7,6 +7,7 @@ import json
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 REPO = "MGFPKU/target_dataset"
 ASSET_NAME = "dataset.xlsx"
+LOCAL_DATA: bool = os.getenv("LOCAL_DATA", "FALSE").upper() == "TRUE"
 
 WANTED_COLS = ["Announcement_Year", "Target_Category"]
 
@@ -27,6 +28,10 @@ def promote_second_row_to_header(df: pl.DataFrame) -> pl.DataFrame:
 
 
 def fetch_raw_data() -> io.BytesIO:
+    if LOCAL_DATA:
+        with open("../CHINA'S NATIONAL CLIMATE TARGETS DATABASE.xlsx", "rb") as f:
+            print("Using local data...")
+            return io.BytesIO(f.read())
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
         "Accept": "application/vnd.github+json",
