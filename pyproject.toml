@@ -1,7 +1,7 @@
 [project]
 name = "target-visualization"
 version = "0.1.0"
-description = "Policy Target Dataset Visualization — Shiny for Python web app to vizualize Chinese climate policy target data."
+description = "Policy Target Dataset Visualization — Shiny for Python web app to visualize Chinese climate policy target data."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
