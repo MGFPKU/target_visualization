@@ -12,18 +12,44 @@ LOCAL_DATA: bool = os.getenv("LOCAL_DATA", "FALSE").upper() == "TRUE"
 WANTED_COLS = ["Announcement_Year", "Target_Category"]
 
 
-def promote_second_row_to_header(df: pl.DataFrame) -> pl.DataFrame:
-    """Use the first row of `df` as column names and drop that row.
+def promote_header_row(df: pl.DataFrame) -> pl.DataFrame:
+    """Find the real header row and promote it to column names, dropping
+    everything above it.
 
-    Polars by default uses the first Excel row as column names. If the actual
-    headers live in the second Excel row (which becomes the first row of the
-    DataFrame), promote that row to be the DataFrame columns and remove it.
+    Some Excel sheets have metadata/description rows before the actual column
+    headers.  This function scans for the first row that has values in more
+    than one column (metadata rows typically only use the first column) and
+    promotes it to be the DataFrame columns.  All rows above and including the
+    header row are removed.
     """
     if df.height == 0:
         return df
-    header_vals = [str(v) if v is not None else "" for v in df.row(0)]
-    df = df.slice(1)
-    df.columns = header_vals
+
+    # Locate the header: first row with non-null values in more than one column
+    header_idx: int | None = None
+    for i in range(df.height):
+        non_null = sum(1 for v in df.row(i) if v is not None)
+        if non_null > 1:
+            header_idx = i
+            break
+
+    if header_idx is None:
+        return df
+
+    header_vals = [str(v) if v is not None else "" for v in df.row(header_idx)]
+    # Deduplicate: Polars requires unique column names
+    seen: dict[str, int] = {}
+    unique_headers: list[str] = []
+    for v in header_vals:
+        if v in seen:
+            seen[v] += 1
+            unique_headers.append(f"{v}_{seen[v]}")
+        else:
+            seen[v] = 0
+            unique_headers.append(v)
+
+    df = df.slice(header_idx + 1)
+    df.columns = unique_headers
     return df
 
 
@@ -88,7 +114,7 @@ def get_data() -> pl.DataFrame:
 
     sheet_names, source_sheet = get_sheet_names()
     source_sheet = pl.read_excel(raw_xlsx, sheet_name=source_sheet)
-    source_sheet = promote_second_row_to_header(source_sheet).select(
+    source_sheet = promote_header_row(source_sheet).select(
         ["code", "doc_name_en", "doc_name_zh"]
     )
 
