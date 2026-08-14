@@ -91,8 +91,8 @@ def server(input, output, session):
          title=i18n("气候目标类型发布数量"),
          color_discrete_sequence=["#385E4B"]
       )
-      fig.update_xaxes(title_text=i18n("气候目标类型"))
-      fig.update_yaxes(title_text=i18n("数量"))
+      fig.update_yaxes(title_text=i18n("气候目标类型"))
+      fig.update_xaxes(title_text=i18n("数量"))
       fig.update_layout(
          plot_bgcolor="white",
          paper_bgcolor="white"
