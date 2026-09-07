@@ -170,7 +170,9 @@ def _load_cn_data(raw_xlsx: io.BytesIO, lang: str) -> pl.DataFrame:
         sheet = _rename_cn_columns(sheet)
 
         sheet = sheet.with_columns(
-            pl.col("Target_Category").str.replace(r"\s*target$", "", literal=False)
+            pl.col("Target_Category").str.replace(
+                r"\s*(?:target|目标)$", "", literal=False
+            )
         )
         sheet = sheet.select(WANTED_COLS)
         combined_sheet = (
@@ -198,7 +200,9 @@ def _load_en_data(raw_xlsx: io.BytesIO, lang: str) -> pl.DataFrame:
             .filter(pl.col("Count") != "r")
         )
         sheet = sheet.with_columns(
-            pl.col("Target_Category").str.replace(r"\s*target$", "", literal=False)
+            pl.col("Target_Category").str.replace(
+                r"\s*(?:target|目标)$", "", literal=False
+            )
         )
         sheet = sheet.select(WANTED_COLS)
         combined_sheet = (
