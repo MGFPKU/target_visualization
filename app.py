@@ -55,7 +55,7 @@ def server(input, output, session):
       data = df()
       freq = (
          data.group_by("Announcement_Year")
-         .agg(pl.count().alias("frequency"))
+         .agg(pl.len().alias("frequency"))
          .sort("Announcement_Year")
       )
       fig = px.bar(
@@ -81,7 +81,7 @@ def server(input, output, session):
       data = df()
       category_freq = (
          data.group_by("Target_Category")
-         .agg(pl.count().alias("frequency"))
+         .agg(pl.len().alias("frequency"))
          .sort("frequency")
       )
       fig = px.bar(
